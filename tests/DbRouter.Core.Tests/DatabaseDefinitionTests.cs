@@ -5,17 +5,13 @@ public sealed class DatabaseDefinitionTests
     [Fact]
     public void ToString_redacts_connection_string()
     {
-        var definition = new DatabaseDefinition<DatabaseKey>(
-            DatabaseKey.Primary,
-            "sqlserver",
-            TestDefinitions.PrimaryConnectionString);
+        const string secret = "secret-in-every-field";
+        var definition = new DatabaseDefinition<string>(secret, secret, secret);
 
         string text = definition.ToString();
 
-        Assert.Contains("sqlserver", text);
         Assert.Contains("[REDACTED]", text);
-        Assert.False(text.Contains(TestDefinitions.PrimaryConnectionString, StringComparison.Ordinal));
-        Assert.DoesNotContain("primary-secret", text);
+        Assert.DoesNotContain(secret, text);
     }
 
     [Fact]

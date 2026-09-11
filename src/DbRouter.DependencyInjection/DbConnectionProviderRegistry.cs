@@ -19,13 +19,25 @@ internal sealed class DbConnectionProviderRegistry
                     "A database connection provider registration resolved to null.");
             }
 
-            if (string.IsNullOrWhiteSpace(provider.ProviderId))
+            string providerId;
+
+            try
+            {
+                providerId = provider.ProviderId;
+            }
+            catch (Exception)
+            {
+                throw new DbConnectionProviderRegistrationException(
+                    "A database connection provider failed while reporting its provider identifier.");
+            }
+
+            if (string.IsNullOrWhiteSpace(providerId))
             {
                 throw new DbConnectionProviderRegistrationException(
                     "A database connection provider has a missing provider identifier.");
             }
 
-            if (!validated.TryAdd(provider.ProviderId, provider))
+            if (!validated.TryAdd(providerId, provider))
             {
                 throw new DbConnectionProviderRegistrationException(
                     "Multiple database connection providers use the same provider identifier.");

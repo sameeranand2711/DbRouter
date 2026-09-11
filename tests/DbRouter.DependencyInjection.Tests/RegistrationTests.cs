@@ -118,6 +118,26 @@ public sealed class RegistrationTests
     }
 
     [Fact]
+    public void Provider_identifier_failure_is_sanitized()
+    {
+        var services = new ServiceCollection();
+        services.AddDbRouter<DatabaseKey>(builder =>
+        {
+            builder.AddProvider(new ThrowingProviderIdentifier());
+            builder.AddDatabase(DatabaseKey.Primary, "fake", "safe-test-value");
+        });
+        using ServiceProvider provider = services.BuildServiceProvider();
+        using IServiceScope scope = provider.CreateScope();
+
+        DbConnectionProviderRegistrationException exception =
+            Assert.Throws<DbConnectionProviderRegistrationException>(
+                () => scope.ServiceProvider.GetRequiredService<IDbConnectionFactory<DatabaseKey>>());
+
+        Assert.DoesNotContain(ThrowingProviderIdentifier.Secret, exception.ToString());
+        Assert.Null(exception.InnerException);
+    }
+
+    [Fact]
     public void Duplicate_database_keys_are_rejected_when_router_initializes()
     {
         var services = new ServiceCollection();

@@ -9,7 +9,7 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 | Agent 02 | ORM-independent core, validation, scoped selection, resolution and concurrency tests | Complete |
 | Agent 03 | DbConnection factory, provider registry, SQL Server and PostgreSQL packages, DI, tests | Complete |
 | Agent 04 | Optional EF Core package, explicit/scoped context creation, lifecycle tests | Complete |
-| Agent 05 | Consumer validation, documentation set, release checklist, release report | Pending |
+| Agent 05 | Consumer validation, documentation set, release checklist, release report | Complete |
 | Final delivery | Open PR/MR targeting `main` | Blocked until a Git remote is configured |
 
 ## Completed artifacts
@@ -63,6 +63,18 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 - Safe EF provider-registration, provider-not-found, and context-creation exceptions.
 - Target-matched EF Core dependencies: 8.0.31 for `net8.0`, 10.0.12 for `net10.0`.
 - EF test project with 15 passing tests on each framework covering explicit/scoped configuration, disposal, repository injection, unit-of-work sharing, selection independence, provider independence, and secret-safe failures.
+
+### Agent 05
+
+- Completed consumer validation for ADO.NET, Dapper-compatible access, explicit/scoped EF Core, repositories, and mixed providers.
+- Reviewed and reduced the public surface; strengthened definition and provider failure sanitization.
+- Added the required README, license, consumer guides, roadmap, release checklist, and release report.
+- Added a focused dual-framework in-process performance harness under `benchmarks/DbRouter.Benchmarks`.
+- Final clean Release build: zero warnings and zero errors.
+- Final tests: 30 Core, 19 DI/factory, 7 provider, and 15 EF tests per framework; 71 per framework and 142 combined, with zero failures or skips.
+- Built and inspected version 1.0.0 packages for Core, DI, SQL Server, PostgreSQL, and optional EF Core, each with `net8.0` and `net10.0` assets.
+- NuGet direct/transitive advisory checks reported no vulnerable package in the five library projects.
+- Agent 05 result: `STATUS: PASS`.
 
 ## V1 framework policy
 

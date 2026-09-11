@@ -30,5 +30,5 @@ public sealed class DatabaseDefinition<TKey>
 
     /// <inheritdoc />
     public override string ToString() =>
-        $"{nameof(DatabaseDefinition<TKey>)} {{ Key = {Key}, ProviderId = {ProviderId}, ConnectionString = [REDACTED] }}";
+        $"{nameof(DatabaseDefinition<TKey>)} {{ Configuration = [REDACTED] }}";
 }

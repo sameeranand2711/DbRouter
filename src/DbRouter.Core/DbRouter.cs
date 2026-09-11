@@ -16,10 +16,23 @@ public sealed class DbRouter<TKey> : IDbRouter<TKey>
     {
         ArgumentNullException.ThrowIfNull(definitionProvider);
 
-        IReadOnlyCollection<DatabaseDefinition<TKey>> definitions =
-            definitionProvider.GetDefinitions()
-            ?? throw new DatabaseDefinitionValidationException(
+        IReadOnlyCollection<DatabaseDefinition<TKey>> definitions;
+
+        try
+        {
+            definitions = definitionProvider.GetDefinitions();
+        }
+        catch (Exception)
+        {
+            throw new DatabaseDefinitionValidationException(
+                "The database definition provider failed to supply its static definitions.");
+        }
+
+        if (definitions is null)
+        {
+            throw new DatabaseDefinitionValidationException(
                 "The database definition provider returned a null collection.");
+        }
 
         var validated = new Dictionary<TKey, DatabaseDefinition<TKey>>();
         var index = 0;

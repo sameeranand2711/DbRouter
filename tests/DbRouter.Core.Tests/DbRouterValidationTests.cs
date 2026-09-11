@@ -83,4 +83,26 @@ public sealed class DbRouterValidationTests
     {
         Assert.Throws<ArgumentNullException>(() => new DbRouter<DatabaseKey>(null!));
     }
+
+    [Fact]
+    public void Definition_provider_failure_is_sanitized()
+    {
+        DatabaseDefinitionValidationException exception =
+            Assert.Throws<DatabaseDefinitionValidationException>(
+                () => new DbRouter<DatabaseKey>(new ThrowingDefinitionProvider()));
+
+        Assert.DoesNotContain(ThrowingDefinitionProvider.Secret, exception.ToString());
+        Assert.Null(exception.InnerException);
+    }
+
+    [Fact]
+    public void Definition_provider_validation_failure_is_sanitized()
+    {
+        DatabaseDefinitionValidationException exception =
+            Assert.Throws<DatabaseDefinitionValidationException>(
+                () => new DbRouter<DatabaseKey>(new ThrowingValidationDefinitionProvider()));
+
+        Assert.DoesNotContain(ThrowingValidationDefinitionProvider.Secret, exception.ToString());
+        Assert.Null(exception.InnerException);
+    }
 }

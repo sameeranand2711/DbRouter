@@ -12,14 +12,10 @@ public sealed class DbRouterBuilder<TKey>
 
     internal DbRouterBuilder(IServiceCollection services)
     {
-        Services = services;
+        _services = services;
     }
 
-    /// <summary>
-    /// Gets the service collection for provider-specific composition extensions.
-    /// Application runtime services should consume typed DbRouter dependencies instead.
-    /// </summary>
-    public IServiceCollection Services { get; }
+    private readonly IServiceCollection _services;
 
     /// <summary>Adds one inline static database definition.</summary>
     public DbRouterBuilder<TKey> AddDatabase(DatabaseDefinition<TKey> definition)
@@ -54,7 +50,7 @@ public sealed class DbRouterBuilder<TKey>
         }
 
         _usesCustomDefinitionProvider = true;
-        Services.AddSingleton<IDatabaseDefinitionProvider<TKey>, TProvider>();
+        _services.AddSingleton<IDatabaseDefinitionProvider<TKey>, TProvider>();
         return this;
     }
 
@@ -62,7 +58,7 @@ public sealed class DbRouterBuilder<TKey>
     public DbRouterBuilder<TKey> AddProvider<TProvider>()
         where TProvider : class, IDbConnectionProvider
     {
-        Services.TryAddEnumerable(
+        _services.TryAddEnumerable(
             ServiceDescriptor.Singleton<IDbConnectionProvider, TProvider>());
         return this;
     }
@@ -71,7 +67,7 @@ public sealed class DbRouterBuilder<TKey>
     public DbRouterBuilder<TKey> AddProvider(IDbConnectionProvider provider)
     {
         ArgumentNullException.ThrowIfNull(provider);
-        Services.AddSingleton(provider);
+        _services.AddSingleton(provider);
         return this;
     }
 
@@ -80,7 +76,7 @@ public sealed class DbRouterBuilder<TKey>
         if (!_usesCustomDefinitionProvider)
         {
             var provider = new StaticDatabaseDefinitionProvider<TKey>(_definitions);
-            Services.AddSingleton<IDatabaseDefinitionProvider<TKey>>(provider);
+            _services.AddSingleton<IDatabaseDefinitionProvider<TKey>>(provider);
         }
     }
 

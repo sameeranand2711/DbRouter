@@ -114,8 +114,6 @@ namespace DbRouter.DependencyInjection;
 
 public sealed class DbRouterBuilder<TKey> where TKey : notnull
 {
-    public IServiceCollection Services { get; }
-
     public DbRouterBuilder<TKey> AddDatabase(
         DatabaseDefinition<TKey> definition);
 

@@ -9,7 +9,7 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 | 02 | Core resolution engine | PASS |
 | 03 | DbConnection providers and dependency injection | PASS |
 | 04 | Entity Framework Core integration | PASS |
-| 05 | Validation, documentation, and release readiness | PENDING |
+| 05 | Validation, documentation, and release readiness | PASS |
 
 ## Agent 00 verification
 
@@ -65,6 +65,27 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 - `net8.0` resolves EF Core 8.0.31/DI 8.x; `net10.0` resolves EF Core 10.0.12/DI 10.x.
 - Restore and Release build succeeded with zero warnings/errors; all 68 tests passed on each framework, including 15 EF integration tests.
 - Agent 00 verified Agent 04 lifecycle, packaging, dependency, and framework outputs before Agent 05 starts.
+
+## Agent 05 verification
+
+- The architecture and every public source type were reviewed; the unnecessary public `DbRouterBuilder.Services` escape hatch was removed.
+- A final security review strengthened redaction and sanitizes failures from custom definition providers and provider identifiers without retaining secret-bearing inner exceptions.
+- ADO.NET, Dapper-compatible, explicit EF, scoped EF/repository, and mixed-provider scenarios are covered by automated tests and consumer documentation.
+- Concurrency tests cover immutable resolution, connection creation, selection reads, and isolated DI scopes.
+- All required consumer guides, roadmap, release checklist, README, license, and `docs/v1-release-report.md` exist.
+- `CREATE_SAMPLE_APP` remains `UNDECIDED`; no sample was created and its delivery remains pending human choice.
+- A clean restore and Release build completed with zero warnings/errors. Per framework, 30 Core, 19 DI/factory, 7 provider, and 15 EF tests passed: 71 per framework and 142 combined, with zero failures/skips.
+- Five NuGet packages were constructed and their dual-framework dependency groups/assets inspected. A direct/transitive NuGet advisory query reported no vulnerable library packages.
+- Representative in-process benchmarks were recorded for key resolution, scoped lookup, and provider lookup plus connection-object construction/disposal; remote database latency was excluded.
+- Agent 05 reports `STATUS: PASS`. Agent 00 verified the required technical outputs and gates before final PR/MR delivery.
+
+## Final orchestration verification
+
+- The completed stage branches and commits form a sequential history rooted at the empty `main` baseline.
+- All implementation and release work occurred on dedicated non-main branches; nothing was merged into `main`.
+- The final release branch contains the complete V1 package, test, documentation, and manifest set.
+- The final build/test/package gates pass and Agent 05 is `PASS`.
+- Final PR/MR creation is blocked because the repository has no configured Git remote. The branch must remain unmerged and be opened against `main` after a remote is supplied.
 
 ## Governance notes
 
