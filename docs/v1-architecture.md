@@ -48,10 +48,23 @@ DbRouter.PostgreSql --> Npgsql
 /
 |-- src/
 |   |-- DbRouter.Core/
-|   |-- DbRouter.DependencyInjection/
-|   |-- DbRouter.SqlServer/
-|   |-- DbRouter.PostgreSql/
+|   |   |-- Abstractions/{Connections,Providers,Resolvers,Scoping}/
+|   |   |-- Exceptions/
+|   |   |-- Models/
+|   |   |-- Providers/
+|   |   |-- Resolution/
+|   |   `-- Validation/
+|   |-- DbRouter.DependencyInjection/{Builders,Extensions,Factories,Registration}/
+|   |-- DbRouter.SqlServer/{Extensions,Providers}/
+|   |-- DbRouter.PostgreSql/{Extensions,Providers}/
 |   `-- DbRouter.EntityFrameworkCore/
+|       |-- Abstractions/Resolvers/
+|       |-- Exceptions/
+|       |-- Extensions/
+|       |-- Factories/
+|       |-- Options/
+|       |-- Providers/
+|       `-- Resolution/
 |-- tests/
 |   |-- DbRouter.Core.Tests/
 |   |-- DbRouter.DependencyInjection.Tests/

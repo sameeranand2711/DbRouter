@@ -1,7 +1,5 @@
 using System.Data;
 using System.Data.Common;
-using DbRouter.PostgreSql;
-using DbRouter.SqlServer;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;

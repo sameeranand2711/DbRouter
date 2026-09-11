@@ -3,6 +3,9 @@
 Implement `IDbConnectionProvider` to add an ADO.NET driver without changing Core or the factory.
 
 ```csharp
+using DbRouter.Core.Abstractions.Providers;
+using DbRouter.Core.Exceptions;
+
 public sealed class AcmeDbConnectionProvider : IDbConnectionProvider
 {
     public const string Id = "acmedb";
@@ -38,6 +41,8 @@ public sealed class AcmeDbConnectionProvider : IDbConnectionProvider
 ## Fluent registration extension
 
 ```csharp
+using DbRouter.DependencyInjection.Builders;
+
 public static class AcmeDbRouterBuilderExtensions
 {
     public static DbRouterBuilder<TKey> AddAcme<TKey>(
@@ -63,6 +68,8 @@ Keep the provider in its own package with references to `DbRouter.Core`, `DbRout
 EF integration is separate. Applications can register a callback:
 
 ```csharp
+using DbRouter.EntityFrameworkCore.Options;
+
 efBuilder.AddProvider(
     AcmeDbConnectionProvider.Id,
     (options, connectionString) => options.UseAcme(connectionString));

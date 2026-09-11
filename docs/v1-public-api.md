@@ -1,55 +1,79 @@
 # DbRouter V1 Public API
 
-This document fixes the intended V1 surface. Minor implementation-only constructors and attributes may be internal, but public behavior and names must remain consistent with this contract.
+This document records the intended V1 public surface after responsibility-based namespace alignment. Namespace names are part of the contract.
 
 ## DbRouter.Core
 
+### Models
+
 ```csharp
-namespace DbRouter;
+namespace DbRouter.Core.Models;
 
 public sealed class DatabaseDefinition<TKey> where TKey : notnull
 {
     public DatabaseDefinition(TKey key, string providerId, string connectionString);
-
     public TKey Key { get; }
     public string ProviderId { get; }
     public string ConnectionString { get; }
-    public override string ToString(); // always redacts ConnectionString
+    public override string ToString();
 }
+```
+
+### Provider contracts and implementation
+
+```csharp
+namespace DbRouter.Core.Abstractions.Providers;
 
 public interface IDatabaseDefinitionProvider<TKey> where TKey : notnull
 {
     IReadOnlyCollection<DatabaseDefinition<TKey>> GetDefinitions();
 }
 
+public interface IDbConnectionProvider
+{
+    string ProviderId { get; }
+    DbConnection Create(string connectionString);
+}
+```
+
+```csharp
+namespace DbRouter.Core.Providers;
+
 public sealed class StaticDatabaseDefinitionProvider<TKey> :
     IDatabaseDefinitionProvider<TKey> where TKey : notnull
 {
     public StaticDatabaseDefinitionProvider(
         IEnumerable<DatabaseDefinition<TKey>> definitions);
-
     public IReadOnlyCollection<DatabaseDefinition<TKey>> GetDefinitions();
 }
+```
+
+### Resolution, connection, and scoping contracts
+
+```csharp
+namespace DbRouter.Core.Abstractions.Resolvers;
 
 public interface IDbRouter<TKey> where TKey : notnull
 {
     DatabaseDefinition<TKey> Resolve(TKey key);
-
     bool TryResolve(
         TKey key,
         [NotNullWhen(true)] out DatabaseDefinition<TKey>? definition);
 }
+```
 
-public sealed class DbRouter<TKey> : IDbRouter<TKey> where TKey : notnull
+```csharp
+namespace DbRouter.Core.Abstractions.Connections;
+
+public interface IDbConnectionFactory<TKey> where TKey : notnull
 {
-    public DbRouter(IDatabaseDefinitionProvider<TKey> definitionProvider);
-
-    public DatabaseDefinition<TKey> Resolve(TKey key);
-
-    public bool TryResolve(
-        TKey key,
-        [NotNullWhen(true)] out DatabaseDefinition<TKey>? definition);
+    DbConnection Create(TKey key);
+    DbConnection Create();
 }
+```
+
+```csharp
+namespace DbRouter.Core.Abstractions.Scoping;
 
 public interface IDatabaseSelection<TKey> where TKey : notnull
 {
@@ -58,32 +82,26 @@ public interface IDatabaseSelection<TKey> where TKey : notnull
     void Select(TKey key);
     bool TryGetSelected([MaybeNullWhen(false)] out TKey key);
 }
+```
+
+```csharp
+namespace DbRouter.Core.Resolution;
+
+public sealed class DbRouter<TKey> : IDbRouter<TKey> where TKey : notnull
+{
+    // Implements the resolver contract.
+}
 
 public sealed class DatabaseSelection<TKey> : IDatabaseSelection<TKey>
     where TKey : notnull
 {
-    public DatabaseSelection(IDbRouter<TKey> router);
-
-    public bool HasSelection { get; }
-    public TKey SelectedKey { get; }
-    public void Select(TKey key);
-    public bool TryGetSelected([MaybeNullWhen(false)] out TKey key);
-}
-
-public interface IDbConnectionProvider
-{
-    string ProviderId { get; }
-    DbConnection Create(string connectionString);
-}
-
-public interface IDbConnectionFactory<TKey> where TKey : notnull
-{
-    DbConnection Create(TKey key); // explicit
-    DbConnection Create();         // current scoped selection
+    // Implements the scoped-selection contract.
 }
 ```
 
-Public exception types, each in its own file:
+The concrete classes expose the members of their corresponding interfaces and their dependency-injection constructors.
+
+Namespace `DbRouter.Core.Exceptions` contains:
 
 - `DatabaseDefinitionValidationException`
 - `DatabaseNotFoundException`
@@ -93,12 +111,12 @@ Public exception types, each in its own file:
 - `DbConnectionProviderRegistrationException`
 - `DbConnectionCreationException`
 
-Exceptions do not expose connection strings as properties or message content. `DatabaseNotFoundException` intentionally does not stringify arbitrary keys into its message.
+Exceptions do not expose connection strings as properties or message content. `DatabaseNotFoundException` intentionally does not stringify arbitrary keys.
 
 ## DbRouter.DependencyInjection
 
 ```csharp
-namespace Microsoft.Extensions.DependencyInjection;
+namespace DbRouter.DependencyInjection.Extensions;
 
 public static class DbRouterServiceCollectionExtensions
 {
@@ -110,61 +128,37 @@ public static class DbRouterServiceCollectionExtensions
 ```
 
 ```csharp
-namespace DbRouter.DependencyInjection;
+namespace DbRouter.DependencyInjection.Builders;
 
 public sealed class DbRouterBuilder<TKey> where TKey : notnull
 {
-    public DbRouterBuilder<TKey> AddDatabase(
-        DatabaseDefinition<TKey> definition);
-
+    public DbRouterBuilder<TKey> AddDatabase(DatabaseDefinition<TKey> definition);
     public DbRouterBuilder<TKey> AddDatabase(
         TKey key,
         string providerId,
         string connectionString);
-
     public DbRouterBuilder<TKey> UseDefinitionProvider<TProvider>()
         where TProvider : class, IDatabaseDefinitionProvider<TKey>;
-
     public DbRouterBuilder<TKey> AddProvider<TProvider>()
         where TProvider : class, IDbConnectionProvider;
-
-    public DbRouterBuilder<TKey> AddProvider(
-        IDbConnectionProvider provider);
+    public DbRouterBuilder<TKey> AddProvider(IDbConnectionProvider provider);
 }
 ```
 
-The builder is a composition API, not a runtime service locator. Inline definitions cannot be mixed with `UseDefinitionProvider`. Provider implementations are registered as singletons and must be safe for concurrent `Create` calls.
+The builder is a composition API, not a runtime service locator. Inline definitions cannot be mixed with `UseDefinitionProvider`.
 
 ## Provider packages
 
-```csharp
-namespace DbRouter.SqlServer;
+`DbRouter.SqlServer.Providers` contains `SqlServerDbConnectionProvider`; `DbRouter.SqlServer.Extensions` contains `SqlServerDbRouterBuilderExtensions`.
 
-public sealed class SqlServerDbConnectionProvider : IDbConnectionProvider
-{
-    public const string Id = "sqlserver";
-    public string ProviderId { get; }
-    public DbConnection Create(string connectionString);
-}
+`DbRouter.PostgreSql.Providers` contains `PostgreSqlDbConnectionProvider`; `DbRouter.PostgreSql.Extensions` contains `PostgreSqlDbRouterBuilderExtensions`.
 
-public static class SqlServerDbRouterBuilderExtensions
-{
-    public static DbRouterBuilder<TKey> AddSqlServer<TKey>(
-        this DbRouterBuilder<TKey> builder) where TKey : notnull;
-
-    public static DbRouterBuilder<TKey> AddSqlServer<TKey>(
-        this DbRouterBuilder<TKey> builder,
-        TKey key,
-        string connectionString) where TKey : notnull;
-}
-```
-
-`DbRouter.PostgreSql` exposes the corresponding `PostgreSqlDbConnectionProvider` with ID `postgresql` and `AddPostgreSql` overloads. Provider `Create` methods return a non-null, closed connection and do not open it.
+Each provider class implements `IDbConnectionProvider`, exposes its stable `Id`, and returns a new closed connection. Each extension class has overloads both to register the provider alone and to add one inline database definition.
 
 ## DbRouter.EntityFrameworkCore
 
 ```csharp
-namespace DbRouter.EntityFrameworkCore;
+namespace DbRouter.EntityFrameworkCore.Abstractions.Resolvers;
 
 public interface IDbContextResolver<TKey, TContext>
     where TKey : notnull
@@ -172,6 +166,10 @@ public interface IDbContextResolver<TKey, TContext>
 {
     TContext Create(TKey key);
 }
+```
+
+```csharp
+namespace DbRouter.EntityFrameworkCore.Options;
 
 public sealed class DbRouterEntityFrameworkBuilder<TContext>
     where TContext : DbContext
@@ -183,7 +181,7 @@ public sealed class DbRouterEntityFrameworkBuilder<TContext>
 ```
 
 ```csharp
-namespace Microsoft.Extensions.DependencyInjection;
+namespace DbRouter.EntityFrameworkCore.Extensions;
 
 public static class DbRouterEntityFrameworkServiceCollectionExtensions
 {
@@ -196,34 +194,21 @@ public static class DbRouterEntityFrameworkServiceCollectionExtensions
 }
 ```
 
-The registration adds `IDbContextResolver<TKey,TContext>` and scoped `TContext`. Provider-specific packages can add fluent extensions over `DbRouterEntityFrameworkBuilder<TContext>` without changes to the central EF integration.
+Namespace `DbRouter.EntityFrameworkCore.Exceptions` contains `DbContextProviderNotFoundException`, `DbContextProviderRegistrationException`, and `DbContextCreationException`.
 
-The EF package also exposes three safe exception types so applications can distinguish missing provider configuration, duplicate registration, and sanitized context-construction failure:
-
-- `DbContextProviderNotFoundException`
-- `DbContextProviderRegistrationException`
-- `DbContextCreationException`
-
-## Typical composition
+## Typical imports
 
 ```csharp
-services.AddDbRouter<DatabaseKey>(builder =>
-{
-    builder.AddSqlServer(DatabaseKey.Primary, primaryConnectionString);
-    builder.AddPostgreSql(DatabaseKey.Reporting, reportingConnectionString);
-});
-
-services.AddDbRouterEntityFrameworkCore<DatabaseKey, ApplicationDbContext>(
-    options => new ApplicationDbContext(options),
-    builder =>
-    {
-        builder.AddProvider(
-            SqlServerDbConnectionProvider.Id,
-            (options, connectionString) => options.UseSqlServer(connectionString));
-        builder.AddProvider(
-            PostgreSqlDbConnectionProvider.Id,
-            (options, connectionString) => options.UseNpgsql(connectionString));
-    });
+using DbRouter.Core.Abstractions.Connections;
+using DbRouter.Core.Abstractions.Resolvers;
+using DbRouter.Core.Abstractions.Scoping;
+using DbRouter.DependencyInjection.Extensions;
+using DbRouter.EntityFrameworkCore.Abstractions.Resolvers;
+using DbRouter.EntityFrameworkCore.Extensions;
+using DbRouter.PostgreSql.Extensions;
+using DbRouter.PostgreSql.Providers;
+using DbRouter.SqlServer.Extensions;
+using DbRouter.SqlServer.Providers;
 ```
 
-Application repositories inject `ApplicationDbContext`; explicit multi-database operations inject `IDbContextResolver<DatabaseKey,ApplicationDbContext>`.
+Applications import only the responsibility namespaces used by their composition and runtime code.

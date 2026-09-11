@@ -1,5 +1,9 @@
 using System.Diagnostics;
-using DbRouter.SqlServer;
+using DbRouter.Core.Abstractions.Connections;
+using DbRouter.Core.Abstractions.Resolvers;
+using DbRouter.Core.Abstractions.Scoping;
+using DbRouter.DependencyInjection.Extensions;
+using DbRouter.SqlServer.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DbRouter.Benchmarks;

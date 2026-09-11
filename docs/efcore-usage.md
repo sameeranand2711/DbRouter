@@ -19,6 +19,10 @@ public sealed class ApplicationDbContext : DbContext
 ## Register provider options
 
 ```csharp
+using DbRouter.EntityFrameworkCore.Extensions;
+using DbRouter.PostgreSql.Providers;
+using DbRouter.SqlServer.Providers;
+
 services.AddDbRouterEntityFrameworkCore<DatabaseKey, ApplicationDbContext>(
     options => new ApplicationDbContext(options),
     builder =>

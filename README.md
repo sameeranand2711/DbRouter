@@ -27,8 +27,9 @@ dotnet add package DbRouter.PostgreSql
 ## Register databases
 
 ```csharp
-using DbRouter.PostgreSql;
-using DbRouter.SqlServer;
+using DbRouter.DependencyInjection.Extensions;
+using DbRouter.PostgreSql.Extensions;
+using DbRouter.SqlServer.Extensions;
 
 public enum DatabaseKey
 {
@@ -74,6 +75,10 @@ Selection is isolated to one DI scope and is write-once. Explicit operations do 
 Install `DbRouter.EntityFrameworkCore` and the EF provider packages selected by the application. DbRouter does not pull SQL Server or PostgreSQL EF providers into the integration package.
 
 ```csharp
+using DbRouter.EntityFrameworkCore.Extensions;
+using DbRouter.PostgreSql.Providers;
+using DbRouter.SqlServer.Providers;
+
 services.AddDbRouterEntityFrameworkCore<DatabaseKey, ApplicationDbContext>(
     options => new ApplicationDbContext(options),
     builder =>

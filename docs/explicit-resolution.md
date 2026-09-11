@@ -5,6 +5,8 @@ Explicit resolution is the right mode when an operation deliberately names its d
 ## Definition lookup
 
 ```csharp
+using DbRouter.Core.Models;
+
 DatabaseDefinition<DatabaseKey> definition = router.Resolve(DatabaseKey.Primary);
 
 if (router.TryResolve(candidate, out DatabaseDefinition<DatabaseKey>? optional))

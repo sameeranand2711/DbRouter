@@ -1,4 +1,3 @@
-using DbRouter.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -87,7 +86,7 @@ public sealed class EfCoreRegistrationTests
         string[][] references =
         [
             typeof(IDbRouter<>).Assembly.GetReferencedAssemblies().Select(name => name.Name ?? string.Empty).ToArray(),
-            typeof(DbRouter.DependencyInjection.DbRouterBuilder<>).Assembly.GetReferencedAssemblies().Select(name => name.Name ?? string.Empty).ToArray(),
+            typeof(DbRouterBuilder<>).Assembly.GetReferencedAssemblies().Select(name => name.Name ?? string.Empty).ToArray(),
         ];
 
         Assert.All(

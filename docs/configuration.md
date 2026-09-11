@@ -5,6 +5,10 @@
 The fluent path is the simplest V1 configuration:
 
 ```csharp
+using DbRouter.DependencyInjection.Extensions;
+using DbRouter.PostgreSql.Extensions;
+using DbRouter.SqlServer.Extensions;
+
 services.AddDbRouter<DatabaseKey>(builder =>
 {
     builder.AddSqlServer(DatabaseKey.Primary, primaryConnectionString);
@@ -33,6 +37,10 @@ This keeps environment variables, JSON, vault hydration, and other configuration
 Implement a static synchronous provider:
 
 ```csharp
+using DbRouter.Core.Abstractions.Providers;
+using DbRouter.Core.Models;
+using DbRouter.SqlServer.Providers;
+
 public sealed class ApplicationDatabaseDefinitions
     : IDatabaseDefinitionProvider<DatabaseKey>
 {
@@ -57,6 +65,9 @@ public sealed class ApplicationDatabaseDefinitions
 Register it instead of inline definitions:
 
 ```csharp
+using DbRouter.DependencyInjection.Extensions;
+using DbRouter.SqlServer.Extensions;
+
 services.AddDbRouter<DatabaseKey>(builder =>
 {
     builder.UseDefinitionProvider<ApplicationDatabaseDefinitions>();

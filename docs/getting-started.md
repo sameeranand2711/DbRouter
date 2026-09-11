@@ -22,8 +22,9 @@ Add `DbRouter.EntityFrameworkCore` only if the application uses EF Core. Applica
 ## Define keys and register targets
 
 ```csharp
-using DbRouter.PostgreSql;
-using DbRouter.SqlServer;
+using DbRouter.DependencyInjection.Extensions;
+using DbRouter.PostgreSql.Extensions;
+using DbRouter.SqlServer.Extensions;
 
 public enum DatabaseKey
 {
@@ -64,6 +65,9 @@ The connection is closed when returned and must be disposed by the caller. Selec
 Inline definitions are validated when the singleton router is first constructed. Ensure custom providers are also activated during application startup:
 
 ```csharp
+using DbRouter.Core.Abstractions.Resolvers;
+using Microsoft.Extensions.DependencyInjection;
+
 _ = app.Services.GetRequiredService<IDbRouter<DatabaseKey>>();
 ```
 
