@@ -8,7 +8,7 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 | Agent 01 | Requirements, architecture, public API, lifetime/ownership, and out-of-scope documents | Complete |
 | Agent 02 | ORM-independent core, validation, scoped selection, resolution and concurrency tests | Complete |
 | Agent 03 | DbConnection factory, provider registry, SQL Server and PostgreSQL packages, DI, tests | Complete |
-| Agent 04 | Optional EF Core package, explicit/scoped context creation, lifecycle tests | Pending |
+| Agent 04 | Optional EF Core package, explicit/scoped context creation, lifecycle tests | Complete |
 | Agent 05 | Consumer validation, documentation set, release checklist, release report | Pending |
 | Final delivery | Open PR/MR targeting `main` | Blocked until a Git remote is configured |
 
@@ -53,6 +53,16 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 - DI/factory test project with 18 passing tests on each framework.
 - Concrete provider test project with 7 passing tests on each framework and no live database dependency.
 - Mixed providers, closed state, explicit/scoped creation, custom providers, duplicates, missing providers, disposal, leakage, and concurrency are covered.
+
+### Agent 04
+
+- Optional EF package: `src/DbRouter.EntityFrameworkCore`, targeting `net8.0;net10.0`.
+- Explicit context API: `IDbContextResolver<TKey,TContext>` returning a distinct caller-owned context.
+- Scoped context registration: one selected `TContext` instance shared through conventional constructor injection in a DI scope.
+- Provider-neutral options registry through `DbRouterEntityFrameworkBuilder<TContext>` callbacks.
+- Safe EF provider-registration, provider-not-found, and context-creation exceptions.
+- Target-matched EF Core dependencies: 8.0.31 for `net8.0`, 10.0.12 for `net10.0`.
+- EF test project with 15 passing tests on each framework covering explicit/scoped configuration, disposal, repository injection, unit-of-work sharing, selection independence, provider independence, and secret-safe failures.
 
 ## V1 framework policy
 

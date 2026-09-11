@@ -8,7 +8,7 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 | 01 | Specification and architecture | PASS |
 | 02 | Core resolution engine | PASS |
 | 03 | DbConnection providers and dependency injection | PASS |
-| 04 | Entity Framework Core integration | PENDING |
+| 04 | Entity Framework Core integration | PASS |
 | 05 | Validation, documentation, and release readiness | PENDING |
 
 ## Agent 00 verification
@@ -53,6 +53,18 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 - Restore and Release build succeeded with zero warnings/errors for both frameworks.
 - Per framework, 28 Core, 18 DI/factory, and 7 provider tests passed (53 total), with zero failures or skips.
 - Agent 00 verified Agent 03 outputs, dependency graphs, security behavior, and framework gates before Agent 04 starts.
+
+## Agent 04 verification
+
+- Optional `DbRouter.EntityFrameworkCore` supports explicit caller-owned contexts and one container-owned scoped context selected per DI scope.
+- Ordinary contexts with a `DbContextOptions<TContext>` constructor work through a typed activation delegate; no library base context is required.
+- Conventional repositories receive the same scoped context and share normal EF Core tracking/unit-of-work state; separate scopes receive separate contexts.
+- Provider-specific options are registered through keyed typed delegates; the EF integration has no SQL Server, PostgreSQL, or other concrete EF provider dependency.
+- Explicit context creation does not read or mutate scoped selection, and all EF construction/configuration failures are connection-string safe.
+- Core and non-EF packages have no EF assembly/package reference.
+- `net8.0` resolves EF Core 8.0.31/DI 8.x; `net10.0` resolves EF Core 10.0.12/DI 10.x.
+- Restore and Release build succeeded with zero warnings/errors; all 68 tests passed on each framework, including 15 EF integration tests.
+- Agent 00 verified Agent 04 lifecycle, packaging, dependency, and framework outputs before Agent 05 starts.
 
 ## Governance notes
 

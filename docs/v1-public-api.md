@@ -200,6 +200,12 @@ public static class DbRouterEntityFrameworkServiceCollectionExtensions
 
 The registration adds `IDbContextResolver<TKey,TContext>` and scoped `TContext`. Provider-specific packages can add fluent extensions over `DbRouterEntityFrameworkBuilder<TContext>` without changes to the central EF integration.
 
+The EF package also exposes three safe exception types so applications can distinguish missing provider configuration, duplicate registration, and sanitized context-construction failure:
+
+- `DbContextProviderNotFoundException`
+- `DbContextProviderRegistrationException`
+- `DbContextCreationException`
+
 ## Typical composition
 
 ```csharp
