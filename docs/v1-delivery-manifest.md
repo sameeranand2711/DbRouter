@@ -6,7 +6,7 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 | --- | --- | --- |
 | Agent 00 | `docs/agent-execution-status.md`, `docs/v1-delivery-manifest.md` | Complete |
 | Agent 01 | Requirements, architecture, public API, lifetime/ownership, and out-of-scope documents | Complete |
-| Agent 02 | ORM-independent core, validation, scoped selection, resolution and concurrency tests | Pending |
+| Agent 02 | ORM-independent core, validation, scoped selection, resolution and concurrency tests | Complete |
 | Agent 03 | DbConnection factory, provider registry, SQL Server and PostgreSQL packages, DI, tests | Pending |
 | Agent 04 | Optional EF Core package, explicit/scoped context creation, lifecycle tests | Pending |
 | Agent 05 | Consumer validation, documentation set, release checklist, release report | Pending |
@@ -31,6 +31,17 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 - Approved Core, DI, provider, and optional EF Core package boundaries.
 - Approved explicit and write-once scoped selection semantics.
 - Approved caller-owned closed connections and container/caller-owned EF context modes.
+
+### Agent 02
+
+- Solution/build infrastructure: `DbRouter.sln`, `Directory.Build.props`, and `Directory.Packages.props`.
+- Core package: `src/DbRouter.Core` targeting `net8.0;net10.0` with no external packages.
+- Definition API: `DatabaseDefinition<TKey>`, `IDatabaseDefinitionProvider<TKey>`, and `StaticDatabaseDefinitionProvider<TKey>`.
+- Resolution API: `IDbRouter<TKey>` and immutable `DbRouter<TKey>` lookup.
+- Selection API: `IDatabaseSelection<TKey>` and concurrency-safe, write-once `DatabaseSelection<TKey>`.
+- Connection contracts: `IDbConnectionProvider` and `IDbConnectionFactory<TKey>`; implementations remain assigned to Agent 03.
+- Safe definition, resolution, and selection exception types.
+- Core test project with 28 passing tests on each supported framework, including validation, secrecy, custom keys, explicit/scoped independence, DI-scope isolation, and concurrent reads.
 
 ## V1 framework policy
 

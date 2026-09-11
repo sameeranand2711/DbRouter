@@ -6,7 +6,7 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 | --- | --- | --- |
 | 00 | Orchestration and repository governance | PASS |
 | 01 | Specification and architecture | PASS |
-| 02 | Core resolution engine | PENDING |
+| 02 | Core resolution engine | PASS |
 | 03 | DbConnection providers and dependency injection | PENDING |
 | 04 | Entity Framework Core integration | PENDING |
 | 05 | Validation, documentation, and release readiness | PENDING |
@@ -31,6 +31,16 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 - V2+ features are documented as out of scope only; none are designed into V1 behavior.
 - Both `net8.0` and `net10.0` are required with no `net6.0` target.
 - Agent 00 verified Agent 01's required documents and consistency gate before Agent 02 starts.
+
+## Agent 02 verification
+
+- The Core project targets `net8.0` and `net10.0` and has no external package dependency.
+- Definitions, the static provider, frozen router lookup, write-once scoped selection, connection abstractions, and resolution/selection exceptions are implemented.
+- Validation covers null/malformed definitions, duplicate keys, missing providers, empty connection strings, unknown keys, and relevant null inputs without emitting secrets.
+- Resolution and selection concurrency tests pass, including real two-scope DI isolation in the test project.
+- `dotnet restore` and Release build succeeded; the build reported zero warnings and zero errors.
+- 28 tests passed on `net8.0` and the same 28 tests passed on `net10.0`, with zero failures or skips.
+- Agent 00 verified the implementation, required outputs, dependency boundary, and framework gates before Agent 03 starts.
 
 ## Governance notes
 
