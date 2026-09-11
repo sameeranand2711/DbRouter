@@ -120,10 +120,10 @@ The EF project uses the target-matched EF Core major version for each target fra
 - Missing keys fail with `DatabaseNotFoundException`.
 - Missing/conflicting scope state has selection-specific exceptions.
 - Missing/duplicate connection providers have provider-specific exceptions.
-- A concrete driver's construction error is wrapped without reproducing its input connection string.
+- A concrete driver's construction error is replaced by a sanitized DbRouter exception without retaining a potentially secret-bearing inner exception.
 - EF options/configuration and activation failures are wrapped without connection-string data.
 
-Exception messages identify the operation and, where safe, a provider identifier; they never include a connection string. Inner exceptions are retained, so documentation warns consumers that third-party exception handling is also their responsibility.
+Exception messages identify only the failed operation and never include a connection string. Provider construction exceptions are not retained because third-party messages can echo their input. This is a deliberate security correction to the initial design; consumers can diagnose provider configuration by validating it outside secret-bearing production paths.
 
 ## Concurrency model
 

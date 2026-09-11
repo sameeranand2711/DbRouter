@@ -7,7 +7,7 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 | 00 | Orchestration and repository governance | PASS |
 | 01 | Specification and architecture | PASS |
 | 02 | Core resolution engine | PASS |
-| 03 | DbConnection providers and dependency injection | PENDING |
+| 03 | DbConnection providers and dependency injection | PASS |
 | 04 | Entity Framework Core integration | PENDING |
 | 05 | Validation, documentation, and release readiness | PENDING |
 
@@ -41,6 +41,18 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 - `dotnet restore` and Release build succeeded; the build reported zero warnings and zero errors.
 - 28 tests passed on `net8.0` and the same 28 tests passed on `net10.0`, with zero failures or skips.
 - Agent 00 verified the implementation, required outputs, dependency boundary, and framework gates before Agent 03 starts.
+
+## Agent 03 verification
+
+- Provider-neutral Microsoft DI integration registers singleton definition/router/provider lookups and scoped selection/connection factories without retaining `IServiceProvider`.
+- The connection factory supports explicit and selected keys, creates only closed caller-owned connections, rejects null/open provider results, and sanitizes provider failures.
+- Custom static definition providers and custom connection providers are supported.
+- Provider identifiers are validated, case-insensitive, and duplicate-safe through an immutable registry with no central provider switch.
+- Independently referenceable SQL Server and PostgreSQL packages create `SqlConnection` and `NpgsqlConnection` instances without opening them or requiring live databases in tests.
+- Core still has zero packages; DI has only Microsoft DI abstractions; concrete drivers exist only in their provider packages; no EF Core dependency is present.
+- Restore and Release build succeeded with zero warnings/errors for both frameworks.
+- Per framework, 28 Core, 18 DI/factory, and 7 provider tests passed (53 total), with zero failures or skips.
+- Agent 00 verified Agent 03 outputs, dependency graphs, security behavior, and framework gates before Agent 04 starts.
 
 ## Governance notes
 

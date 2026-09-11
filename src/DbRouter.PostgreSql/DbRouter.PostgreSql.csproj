@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>DbRouter.PostgreSql</AssemblyName>
+    <RootNamespace>DbRouter.PostgreSql</RootNamespace>
+    <PackageId>DbRouter.PostgreSql</PackageId>
+    <Description>Npgsql PostgreSQL connection provider for DbRouter.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DbRouter.Core\DbRouter.Core.csproj" />
+    <ProjectReference Include="..\DbRouter.DependencyInjection\DbRouter.DependencyInjection.csproj" />
+  </ItemGroup>
+</Project>

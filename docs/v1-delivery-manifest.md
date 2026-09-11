@@ -7,7 +7,7 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 | Agent 00 | `docs/agent-execution-status.md`, `docs/v1-delivery-manifest.md` | Complete |
 | Agent 01 | Requirements, architecture, public API, lifetime/ownership, and out-of-scope documents | Complete |
 | Agent 02 | ORM-independent core, validation, scoped selection, resolution and concurrency tests | Complete |
-| Agent 03 | DbConnection factory, provider registry, SQL Server and PostgreSQL packages, DI, tests | Pending |
+| Agent 03 | DbConnection factory, provider registry, SQL Server and PostgreSQL packages, DI, tests | Complete |
 | Agent 04 | Optional EF Core package, explicit/scoped context creation, lifecycle tests | Pending |
 | Agent 05 | Consumer validation, documentation set, release checklist, release report | Pending |
 | Final delivery | Open PR/MR targeting `main` | Blocked until a Git remote is configured |
@@ -42,6 +42,17 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 - Connection contracts: `IDbConnectionProvider` and `IDbConnectionFactory<TKey>`; implementations remain assigned to Agent 03.
 - Safe definition, resolution, and selection exception types.
 - Core test project with 28 passing tests on each supported framework, including validation, secrecy, custom keys, explicit/scoped independence, DI-scope isolation, and concurrent reads.
+
+### Agent 03
+
+- DI package: `src/DbRouter.DependencyInjection` with fluent registration, custom definition/provider support, immutable provider registry, and scoped connection factory.
+- SQL Server package: `src/DbRouter.SqlServer` using `Microsoft.Data.SqlClient`.
+- PostgreSQL package: `src/DbRouter.PostgreSql` using `Npgsql`.
+- Safe provider-not-found, provider-registration, and connection-creation exception behavior in Core.
+- Direct and factory-mediated provider construction failures are sanitized without retaining potentially secret-bearing third-party exceptions.
+- DI/factory test project with 18 passing tests on each framework.
+- Concrete provider test project with 7 passing tests on each framework and no live database dependency.
+- Mixed providers, closed state, explicit/scoped creation, custom providers, duplicates, missing providers, disposal, leakage, and concurrency are covered.
 
 ## V1 framework policy
 

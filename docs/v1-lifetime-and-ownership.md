@@ -29,7 +29,7 @@ await connection.OpenAsync(cancellationToken);
 
 The caller chooses when to open it and must dispose it, including when opening or command execution fails. DbRouter never caches, shares, opens, closes, or pools the connection. Pooling—if any—is the concrete ADO.NET driver's responsibility.
 
-If provider construction throws before returning, no connection ownership transfers. DbRouter wraps the failure without embedding the connection string. If a faulty custom provider returns `null`, DbRouter treats that as construction failure.
+If provider construction throws before returning, no connection ownership transfers. DbRouter returns a sanitized `DbConnectionCreationException` without retaining the provider exception, because a third-party message can echo its connection-string input. If a faulty custom provider returns `null`, DbRouter treats that as construction failure.
 
 ## Scoped selection lifecycle
 

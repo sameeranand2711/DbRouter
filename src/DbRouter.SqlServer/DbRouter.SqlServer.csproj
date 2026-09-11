@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>DbRouter.SqlServer</AssemblyName>
+    <RootNamespace>DbRouter.SqlServer</RootNamespace>
+    <PackageId>DbRouter.SqlServer</PackageId>
+    <Description>Microsoft.Data.SqlClient connection provider for DbRouter.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DbRouter.Core\DbRouter.Core.csproj" />
+    <ProjectReference Include="..\DbRouter.DependencyInjection\DbRouter.DependencyInjection.csproj" />
+  </ItemGroup>
+</Project>

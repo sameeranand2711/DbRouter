@@ -36,7 +36,7 @@ V1 must provide:
 - Provider identifiers are non-empty and compared using `StringComparer.OrdinalIgnoreCase`.
 - Connection strings must be non-empty or non-whitespace. Provider-specific parsing remains the provider's responsibility.
 - Unknown keys and providers fail with documented DbRouter exceptions.
-- Connection construction failures preserve an inner exception but never add the connection string to a message.
+- Connection construction failures are sanitized and do not retain a potentially secret-bearing provider exception as their inner exception.
 - Definitions must redact the connection string from `ToString()`.
 - DbRouter must never write connection strings to logs, exceptions, diagnostics, or test output.
 
