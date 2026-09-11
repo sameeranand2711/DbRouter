@@ -5,7 +5,7 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 | Stage | Required artifacts | State |
 | --- | --- | --- |
 | Agent 00 | `docs/agent-execution-status.md`, `docs/v1-delivery-manifest.md` | Complete |
-| Agent 01 | Requirements, architecture, public API, lifetime/ownership, and out-of-scope documents | Pending |
+| Agent 01 | Requirements, architecture, public API, lifetime/ownership, and out-of-scope documents | Complete |
 | Agent 02 | ORM-independent core, validation, scoped selection, resolution and concurrency tests | Pending |
 | Agent 03 | DbConnection factory, provider registry, SQL Server and PostgreSQL packages, DI, tests | Pending |
 | Agent 04 | Optional EF Core package, explicit/scoped context creation, lifecycle tests | Pending |
@@ -20,6 +20,17 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 - Created the dedicated `chore/v1-orchestration` branch.
 - Recorded sequential execution and verification gates.
 - Recorded `CREATE_SAMPLE_APP = UNDECIDED` without inferring a decision.
+
+### Agent 01
+
+- `docs/v1-requirements.md`
+- `docs/v1-architecture.md`
+- `docs/v1-public-api.md`
+- `docs/v1-lifetime-and-ownership.md`
+- `docs/v1-out-of-scope.md`
+- Approved Core, DI, provider, and optional EF Core package boundaries.
+- Approved explicit and write-once scoped selection semantics.
+- Approved caller-owned closed connections and container/caller-owned EF context modes.
 
 ## V1 framework policy
 

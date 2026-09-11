@@ -5,7 +5,7 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 | Agent | Stage | Status |
 | --- | --- | --- |
 | 00 | Orchestration and repository governance | PASS |
-| 01 | Specification and architecture | PENDING |
+| 01 | Specification and architecture | PASS |
 | 02 | Core resolution engine | PENDING |
 | 03 | DbConnection providers and dependency injection | PENDING |
 | 04 | Entity Framework Core integration | PENDING |
@@ -20,6 +20,17 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 - The installed .NET SDK is 10.0.101 and the .NET 8 and .NET 10 runtimes are available.
 - No unrelated existing work is at risk.
 - Agent 00 required outputs exist and were verified before Agent 01 starts.
+
+## Agent 01 verification
+
+- All five required architecture documents exist and agree on names, responsibilities, lifetimes, failure behavior, and package boundaries.
+- Core remains independent of EF Core and concrete ADO.NET providers.
+- Explicit and scoped resolution coexist without ambient state or service location.
+- Closed-connection ownership and EF explicit/scoped context disposal are specified.
+- The public API is intentionally small and uses `TKey : notnull` with default key equality.
+- V2+ features are documented as out of scope only; none are designed into V1 behavior.
+- Both `net8.0` and `net10.0` are required with no `net6.0` target.
+- Agent 00 verified Agent 01's required documents and consistency gate before Agent 02 starts.
 
 ## Governance notes
 
