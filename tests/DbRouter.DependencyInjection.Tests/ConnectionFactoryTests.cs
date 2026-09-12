@@ -171,6 +171,34 @@ public sealed class ConnectionFactoryTests
         Assert.True(openProvider.LastConnection.IsDisposed);
     }
 
+    [Fact]
+    public void State_inspection_failure_is_sanitized_and_connection_is_disposed()
+    {
+        var throwingProvider = new ThrowingStateDbConnectionProvider();
+        var services = new ServiceCollection();
+        services.AddDbRouter<DatabaseKey>(builder =>
+        {
+            builder.AddProvider(throwingProvider);
+            builder.AddDatabase(
+                DatabaseKey.Primary,
+                ThrowingStateDbConnectionProvider.Id,
+                SecretConnectionString);
+        });
+        using ServiceProvider provider = services.BuildServiceProvider();
+        using IServiceScope scope = provider.CreateScope();
+
+        DbConnectionCreationException exception = Assert.Throws<DbConnectionCreationException>(
+            () => scope.ServiceProvider
+                .GetRequiredService<IDbConnectionFactory<DatabaseKey>>()
+                .Create(DatabaseKey.Primary));
+
+        Assert.Null(exception.InnerException);
+        Assert.DoesNotContain(ThrowingStateDbConnection.Secret, exception.ToString());
+        Assert.DoesNotContain(SecretConnectionString, exception.ToString());
+        Assert.NotNull(throwingProvider.LastConnection);
+        Assert.True(throwingProvider.LastConnection.IsDisposed);
+    }
+
     private static ServiceProvider BuildProvider(FakeDbConnectionProvider fakeProvider)
     {
         var services = new ServiceCollection();

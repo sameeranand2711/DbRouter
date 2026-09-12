@@ -105,4 +105,15 @@ public sealed class DbRouterValidationTests
         Assert.DoesNotContain(ThrowingValidationDefinitionProvider.Secret, exception.ToString());
         Assert.Null(exception.InnerException);
     }
+
+    [Fact]
+    public void Definition_provider_enumeration_failure_is_sanitized()
+    {
+        DatabaseDefinitionValidationException exception =
+            Assert.Throws<DatabaseDefinitionValidationException>(
+                () => new DbRouter<DatabaseKey>(new ThrowingEnumerationDefinitionProvider()));
+
+        Assert.DoesNotContain(ThrowingEnumerationDefinitionProvider.Secret, exception.ToString());
+        Assert.Null(exception.InnerException);
+    }
 }

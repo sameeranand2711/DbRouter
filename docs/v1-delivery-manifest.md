@@ -91,3 +91,9 @@ Complete on the dedicated release-candidate branch after an explicit user decisi
 - Explicit caller-owned and scoped DI-owned EF Core context examples using ordinary contexts.
 - Customer selection middleware that runs before scoped repository/context resolution.
 - Focused `tests/DbRouter.SampleApi.Tests` coverage that requires no active database.
+
+## RC review remediation
+
+- Connection state inspection now remains inside the sanitized provider boundary, and rejected connections are disposed even when state inspection or disposal throws.
+- Definition-provider output is materialized inside a sanitized boundary before validation.
+- Regression tests cover both findings on `net8.0` and `net10.0`.
