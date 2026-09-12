@@ -1,6 +1,6 @@
 # DbRouter V1 Delivery Manifest
 
-Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
+Workflow state: `CREATE_SAMPLE_APP = true`
 
 | Stage | Required artifacts | State |
 | --- | --- | --- |
@@ -84,4 +84,10 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 
 ## Sample application
 
-Pending human decision. Agent 05 must not create a sample while the value remains `UNDECIDED`; this does not block technical release readiness.
+Complete on the dedicated `feature/v1-sample-application` branch after an explicit user decision changed the gate to `true`.
+
+- `samples/DbRouter.SampleApi`: .NET 8 minimal Web API with seven heterogeneous database registrations.
+- Explicit and scoped `DbConnection` examples with caller-owned disposal.
+- Explicit caller-owned and scoped DI-owned EF Core context examples using ordinary contexts.
+- Customer selection middleware that runs before scoped repository/context resolution.
+- Focused `tests/DbRouter.SampleApi.Tests` coverage that requires no active database.

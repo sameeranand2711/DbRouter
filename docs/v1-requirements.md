@@ -51,4 +51,4 @@ V1 must provide:
 
 ## Sample application gate
 
-`CREATE_SAMPLE_APP = UNDECIDED`. Library work continues, but Agent 05 must not create a sample until a human changes this value to `true` or `false`.
+`CREATE_SAMPLE_APP = true`. The sample was authorized explicitly after the initial V1 release-readiness stage and is maintained separately under `samples/DbRouter.SampleApi`.

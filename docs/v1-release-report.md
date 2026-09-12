@@ -119,7 +119,9 @@ V1 intentionally excludes dynamic refresh, tenant discovery, asynchronous/remote
 
 ## Sample application status
 
-`CREATE_SAMPLE_APP = UNDECIDED`. Per the workflow gate, no sample was created and the deliverable remains pending a human decision. This does not make V1 technically unready.
+`CREATE_SAMPLE_APP = true`. A later explicit user instruction authorized `samples/DbRouter.SampleApi`, which demonstrates seven logical databases, heterogeneous ADO.NET providers, scoped selection, and explicit/scoped EF Core usage. Its focused tests require no database server.
+
+The sample branch adds 7 passing .NET 8 integration tests. Whole-solution validation after adding the sample reports 149 passing target-specific test executions, zero failures, zero skips, and a Release build with zero warnings/errors. A direct/transitive advisory query reports no vulnerable package for the sample project.
 
 ## Final delivery status
 

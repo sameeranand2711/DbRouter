@@ -114,5 +114,6 @@ For deliberate cross-database work, inject `IDbContextResolver<DatabaseKey, Appl
 - [Provider development](docs/provider-development.md)
 - [Troubleshooting](docs/troubleshooting.md)
 - [Version roadmap](docs/version-roadmap.md)
+- [Comprehensive sample API](samples/DbRouter.SampleApi/README.md)
 
-The sample application gate is currently `UNDECIDED`, so no sample application is included in this V1 delivery.
+The sample API demonstrates seven logical databases, explicit/scoped ADO.NET access, and explicit/scoped EF Core access without requiring database servers to compile or test.

@@ -37,7 +37,7 @@
 - [x] Package dependency graphs were reviewed.
 - [x] Local package vulnerability audit completed without a reported vulnerable package.
 - [x] Required documentation is complete.
-- [ ] Sample application — pending human decision because `CREATE_SAMPLE_APP = UNDECIDED`.
+- [x] Sample application created after `CREATE_SAMPLE_APP` was explicitly set to `true`.
 - [ ] Final PR/MR opened against `main` — pending remote configuration.
 
-The sample gate does not indicate a technical V1 defect. Agent 05 has completed its technical release-readiness gate. Agent 00 still cannot close final delivery until the required PR/MR can be created.
+The sample gate is complete. Agent 05 has completed its technical release-readiness gate. Agent 00 still cannot close final delivery until the required PR/MR can be created.

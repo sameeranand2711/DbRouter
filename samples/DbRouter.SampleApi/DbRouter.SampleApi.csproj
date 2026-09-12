@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <AssemblyName>DbRouter.SampleApi</AssemblyName>
+    <RootNamespace>DbRouter.SampleApi</RootNamespace>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\DbRouter.DependencyInjection\DbRouter.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\src\DbRouter.EntityFrameworkCore\DbRouter.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\DbRouter.PostgreSql\DbRouter.PostgreSql.csproj" />
+    <ProjectReference Include="..\..\src\DbRouter.SqlServer\DbRouter.SqlServer.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,6 +1,6 @@
 # DbRouter V1 Agent Execution Status
 
-Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
+Workflow state: `CREATE_SAMPLE_APP = true`
 
 | Agent | Stage | Status |
 | --- | --- | --- |
@@ -73,7 +73,7 @@ Workflow state: `CREATE_SAMPLE_APP = UNDECIDED`
 - ADO.NET, Dapper-compatible, explicit EF, scoped EF/repository, and mixed-provider scenarios are covered by automated tests and consumer documentation.
 - Concurrency tests cover immutable resolution, connection creation, selection reads, and isolated DI scopes.
 - All required consumer guides, roadmap, release checklist, README, license, and `docs/v1-release-report.md` exist.
-- `CREATE_SAMPLE_APP` remains `UNDECIDED`; no sample was created and its delivery remains pending human choice.
+- At Agent 05 execution time, `CREATE_SAMPLE_APP` was `UNDECIDED`; no sample was created during that stage. A later explicit user instruction set the gate to `true` and authorized the dedicated sample branch.
 - A clean restore and Release build completed with zero warnings/errors. Per framework, 30 Core, 19 DI/factory, 7 provider, and 15 EF tests passed: 71 per framework and 142 combined, with zero failures/skips.
 - Five NuGet packages were constructed and their dual-framework dependency groups/assets inspected. A direct/transitive NuGet advisory query reported no vulnerable library packages.
 - Representative in-process benchmarks were recorded for key resolution, scoped lookup, and provider lookup plus connection-object construction/disposal; remote database latency was excluded.
