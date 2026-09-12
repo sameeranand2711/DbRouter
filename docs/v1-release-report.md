@@ -4,7 +4,7 @@
 
 `STATUS: PASS` for Agent 05 technical release readiness.
 
-DbRouter V1 is ready for human review. The implementation, documentation, dual-target validation, package construction, dependency review, concurrency checks, secrecy checks, and representative performance measurements are complete. The repository still has no configured Git remote, so Agent 00 cannot create the required open PR/MR until a remote is supplied. That delivery-system blocker does not change the technical Agent 05 result.
+DbRouter V1 is ready for human review. The implementation, documentation, dual-target validation, package construction, dependency review, concurrency checks, secrecy checks, and representative performance measurements are complete. GitHub pull request [#1](https://github.com/sameeranand2711/DbRouter/pull/1) targets `main` and remains open and unmerged for human review.
 
 ## Implemented functionality
 
@@ -79,13 +79,13 @@ Final Release validation on 2026-09-12:
 | --- | --- |
 | Clean solution restore | PASS |
 | Release build | PASS, 0 warnings, 0 errors |
-| `net8.0` tests | PASS, 71 passed, 0 failed, 0 skipped |
+| `net8.0` tests | PASS, 78 passed, 0 failed, 0 skipped |
 | `net10.0` tests | PASS, 71 passed, 0 failed, 0 skipped |
-| Combined tests | PASS, 142 passed |
+| Combined tests | PASS, 149 passed |
 | NuGet package construction | PASS, five packages |
 | Direct/transitive vulnerability query | PASS, none reported |
 
-Per target framework, the 71 tests comprise 30 Core, 19 DI/connection-factory, 7 provider, and 15 EF Core tests.
+The library suite contributes 71 tests per target framework: 30 Core, 19 DI/connection-factory, 7 provider, and 15 EF Core tests. The .NET 8 sample project contributes 7 additional tests.
 
 ## Performance observations
 
@@ -115,7 +115,7 @@ V1 intentionally excludes dynamic refresh, tenant discovery, asynchronous/remote
 - Explicit EF contexts are caller-owned; the one scoped EF context is container-owned and still follows EF Core's normal non-thread-safe rule.
 - EF provider configuration callbacks and concrete EF provider packages belong to the consuming application.
 - Sanitizing untrusted provider/driver failures intentionally omits their inner exceptions; diagnose detailed driver failures in a controlled environment without logging secrets.
-- Repository URL metadata and the required PR/MR cannot be populated/created until this repository has a Git remote.
+- Repository and package metadata use `https://github.com/sameeranand2711/DbRouter`.
 
 ## Sample application status
 
@@ -125,4 +125,4 @@ The sample branch adds 7 passing .NET 8 integration tests. Whole-solution valida
 
 ## Final delivery status
 
-Agent 05 passes. Agent 00 must still create an open PR/MR targeting `main` and leave it unmerged. That final action is externally blocked because `git remote -v` is empty; configure a remote before closing the overall workflow.
+Agent 05 passes. Agent 00 created [PR #1](https://github.com/sameeranand2711/DbRouter/pull/1) targeting `main`; it remains open and unmerged for human review.

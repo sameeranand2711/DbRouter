@@ -38,6 +38,6 @@
 - [x] Local package vulnerability audit completed without a reported vulnerable package.
 - [x] Required documentation is complete.
 - [x] Sample application created after `CREATE_SAMPLE_APP` was explicitly set to `true`.
-- [ ] Final PR/MR opened against `main` — pending remote configuration.
+- [x] Final PR/MR opened against `main`: [PR #1](https://github.com/sameeranand2711/DbRouter/pull/1).
 
-The sample gate is complete. Agent 05 has completed its technical release-readiness gate. Agent 00 still cannot close final delivery until the required PR/MR can be created.
+The sample gate and Agent 05 technical release-readiness gate are complete. PR #1 remains open and unmerged for human review.

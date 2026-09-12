@@ -12,6 +12,8 @@
     <Company>DbRouter</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/sameeranand2711/DbRouter</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/sameeranand2711/DbRouter</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <VersionPrefix>1.0.0</VersionPrefix>
   </PropertyGroup>

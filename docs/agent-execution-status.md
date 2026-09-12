@@ -85,11 +85,11 @@ Workflow state: `CREATE_SAMPLE_APP = true`
 - All implementation and release work occurred on dedicated non-main branches; nothing was merged into `main`.
 - The final release branch contains the complete V1 package, test, documentation, and manifest set.
 - The final build/test/package gates pass and Agent 05 is `PASS`.
-- Final PR/MR creation is blocked because the repository has no configured Git remote. The branch must remain unmerged and be opened against `main` after a remote is supplied.
+- GitHub pull request [#1](https://github.com/sameeranand2711/DbRouter/pull/1) targets `main` from `feature/v1-sample-application` and remains open for human review.
 
 ## Governance notes
 
 - Agents execute strictly in numeric order. A later agent starts only after the preceding agent reports PASS and Agent 00 verifies its outputs.
 - Each stage uses a dedicated branch based on the completed preceding stage. The final release branch therefore contains the complete, reviewable V1 change set.
 - No branch will be merged automatically.
-- A remote is not currently configured. Creating the required final PR/MR will require a remote before the workflow can close.
+- `origin` is configured as `https://github.com/sameeranand2711/DbRouter.git`; pull request #1 is the final review gate.
