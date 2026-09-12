@@ -34,36 +34,36 @@ internal sealed class DbConnectionFactory<TKey> : IDbConnectionFactory<TKey>
     private DbConnection Create(DatabaseDefinition<TKey> definition)
     {
         IDbConnectionProvider provider = _providers.Resolve(definition.ProviderId);
-        DbConnection? connection;
+        DbConnection? connection = null;
 
         try
         {
             connection = provider.Create(definition.ConnectionString);
+
+            if (connection is not null && connection.State == ConnectionState.Closed)
+            {
+                return connection;
+            }
         }
         catch (Exception)
         {
+            DisposeSilently(connection);
             throw new DbConnectionCreationException();
         }
 
-        if (connection is null)
-        {
-            throw new DbConnectionCreationException();
-        }
+        DisposeSilently(connection);
+        throw new DbConnectionCreationException();
+    }
 
-        if (connection.State == ConnectionState.Closed)
-        {
-            return connection;
-        }
-
+    private static void DisposeSilently(DbConnection? connection)
+    {
         try
         {
-            connection.Dispose();
+            connection?.Dispose();
         }
         catch (Exception)
         {
             // The connection is rejected regardless; never expose provider diagnostics here.
         }
-
-        throw new DbConnectionCreationException();
     }
 }

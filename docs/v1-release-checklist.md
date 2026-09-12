@@ -21,6 +21,8 @@
 - [x] Definition/provider lookups are immutable after initialization.
 - [x] Configuration values are redacted from `ToString()` and DbRouter exceptions.
 - [x] Potentially secret-bearing custom/third-party exceptions are sanitized.
+- [x] Connection state-inspection failures are sanitized and rejected connections are disposed.
+- [x] Definition enumeration failures are sanitized before validation.
 - [x] No `IServiceProvider` is retained as a runtime service locator.
 - [x] Public API was reviewed; unnecessary `DbRouterBuilder.Services` was removed.
 - [x] Core has no EF or concrete-provider dependency.
