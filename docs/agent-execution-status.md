@@ -85,7 +85,7 @@ Workflow state: `CREATE_SAMPLE_APP = true`
 - All implementation and release work occurred on dedicated non-main branches; nothing was merged into `main`.
 - The final release branch contains the complete V1 package, test, documentation, and manifest set.
 - The final build/test/package gates pass and Agent 05 is `PASS`.
-- GitHub pull request [#1](https://github.com/sameeranand2711/DbRouter/pull/1) targets `main` from `feature/v1-sample-application` and remains open for human review.
+- GitHub pull request [#1](https://github.com/sameeranand2711/DbRouter/pull/1) targets `main` from `release/v1.0.0-rc.1` and remains open for human review.
 
 ## Governance notes
 

@@ -72,7 +72,7 @@ Workflow state: `CREATE_SAMPLE_APP = true`
 - Added a focused dual-framework in-process performance harness under `benchmarks/DbRouter.Benchmarks`.
 - Final clean Release build: zero warnings and zero errors.
 - Final tests: 30 Core, 19 DI/factory, 7 provider, and 15 EF tests per framework; 71 per framework and 142 combined, with zero failures or skips.
-- Built and inspected version 1.0.0 packages for Core, DI, SQL Server, PostgreSQL, and optional EF Core, each with `net8.0` and `net10.0` assets.
+- Built and inspected version 1.0.0-rc.1 packages for Core, DI, SQL Server, PostgreSQL, and optional EF Core, each with `net8.0` and `net10.0` assets.
 - NuGet direct/transitive advisory checks reported no vulnerable package in the five library projects.
 - Agent 05 result: `STATUS: PASS`.
 
@@ -84,7 +84,7 @@ Workflow state: `CREATE_SAMPLE_APP = true`
 
 ## Sample application
 
-Complete on the dedicated `feature/v1-sample-application` branch after an explicit user decision changed the gate to `true`.
+Complete on the dedicated release-candidate branch after an explicit user decision changed the gate to `true`.
 
 - `samples/DbRouter.SampleApi`: .NET 8 minimal Web API with seven heterogeneous database registrations.
 - Explicit and scoped `DbConnection` examples with caller-owned disposal.

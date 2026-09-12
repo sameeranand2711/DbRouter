@@ -4,7 +4,7 @@
 
 `STATUS: PASS` for Agent 05 technical release readiness.
 
-DbRouter V1 is ready for human review. The implementation, documentation, dual-target validation, package construction, dependency review, concurrency checks, secrecy checks, and representative performance measurements are complete. GitHub pull request [#1](https://github.com/sameeranand2711/DbRouter/pull/1) targets `main` and remains open and unmerged for human review.
+DbRouter V1 release candidate `1.0.0-rc.1` is ready for human review. The prerelease designation is intentional: the API and automated validation are complete, while human review and broader consumer validation remain release gates. GitHub pull request [#1](https://github.com/sameeranand2711/DbRouter/pull/1) targets `main` and remains open and unmerged for human review.
 
 ## Implemented functionality
 
@@ -40,7 +40,7 @@ No runtime component retains `IServiceProvider`; DI factory delegates are used o
 
 The .NET 8 asset uses EF Core 8.0.31 and Microsoft DI 8.x. The .NET 10 asset uses EF Core 10.0.12 and Microsoft DI 10.x. The provider packages do not depend on EF Core, and the EF package does not depend on a concrete EF database provider. A NuGet advisory query covering direct and transitive dependencies reported no vulnerable packages in any of the five library projects on 2026-09-12.
 
-Five `1.0.0` NuGet packages build successfully and contain `net8.0` and `net10.0` library/XML documentation assets plus the package README. Package dependency groups were inspected for both target frameworks.
+Five `1.0.0-rc.1` NuGet packages build successfully and contain `net8.0` and `net10.0` library/XML documentation assets plus the package README. Package dependency groups were inspected for both target frameworks.
 
 ## Public API review
 
