@@ -1,0 +1,9 @@
+global using DbRouter.Core.Abstractions.Resolvers;
+global using DbRouter.Core.Abstractions.Scoping;
+global using DbRouter.Core.Exceptions;
+global using DbRouter.DependencyInjection.Builders;
+global using DbRouter.DependencyInjection.Extensions;
+global using DbRouter.EntityFrameworkCore.Abstractions.Resolvers;
+global using DbRouter.EntityFrameworkCore.Exceptions;
+global using DbRouter.EntityFrameworkCore.Extensions;
+global using Xunit;

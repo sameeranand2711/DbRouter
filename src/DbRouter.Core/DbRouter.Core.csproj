@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>DbRouter.Core</AssemblyName>
+    <RootNamespace>DbRouter.Core</RootNamespace>
+    <PackageId>DbRouter.Core</PackageId>
+    <Description>Provider-neutral database definition, resolution, selection, and connection abstractions.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+</Project>

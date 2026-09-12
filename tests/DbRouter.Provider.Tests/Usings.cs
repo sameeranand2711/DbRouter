@@ -1,0 +1,10 @@
+global using DbRouter.Core.Abstractions.Connections;
+global using DbRouter.Core.Abstractions.Providers;
+global using DbRouter.Core.Abstractions.Scoping;
+global using DbRouter.Core.Exceptions;
+global using DbRouter.DependencyInjection.Extensions;
+global using DbRouter.PostgreSql.Extensions;
+global using DbRouter.PostgreSql.Providers;
+global using DbRouter.SqlServer.Extensions;
+global using DbRouter.SqlServer.Providers;
+global using Xunit;

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>DbRouter.EntityFrameworkCore</AssemblyName>
+    <RootNamespace>DbRouter.EntityFrameworkCore</RootNamespace>
+    <PackageId>DbRouter.EntityFrameworkCore</PackageId>
+    <Description>Optional provider-neutral Entity Framework Core integration for DbRouter.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DbRouter.Core\DbRouter.Core.csproj" />
+    <ProjectReference Include="..\DbRouter.DependencyInjection\DbRouter.DependencyInjection.csproj" />
+  </ItemGroup>
+</Project>

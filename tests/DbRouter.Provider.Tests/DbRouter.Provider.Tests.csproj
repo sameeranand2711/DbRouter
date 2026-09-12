@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>DbRouter.Provider.Tests</AssemblyName>
+    <RootNamespace>DbRouter.Provider.Tests</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\DbRouter.Core\DbRouter.Core.csproj" />
+    <ProjectReference Include="..\..\src\DbRouter.DependencyInjection\DbRouter.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\src\DbRouter.PostgreSql\DbRouter.PostgreSql.csproj" />
+    <ProjectReference Include="..\..\src\DbRouter.SqlServer\DbRouter.SqlServer.csproj" />
+  </ItemGroup>
+</Project>
