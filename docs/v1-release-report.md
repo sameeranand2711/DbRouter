@@ -4,7 +4,7 @@
 
 `STATUS: PASS` for Agent 05 technical release readiness.
 
-DbRouter V1 release candidate `1.0.0-rc.1` is ready for human review. The prerelease designation is intentional: the API and automated validation are complete, while human review and broader consumer validation remain release gates. GitHub pull request [#1](https://github.com/sameeranand2711/DbRouter/pull/1) targets `main` and remains open and unmerged for human review.
+DbRouter V1 release candidate `1.0.0-rc.1` is ready for human review. The prerelease designation is intentional: the API and automated validation are complete, while human review and broader consumer validation remain release gates. GitHub pull request [#2](https://github.com/sameeranand2711/DbRouter/pull/2) targets `main` and remains open and unmerged for human review.
 
 ## Implemented functionality
 
@@ -125,4 +125,4 @@ The sample branch adds 7 passing .NET 8 integration tests. Whole-solution valida
 
 ## Final delivery status
 
-Agent 05 passes. Agent 00 created [PR #1](https://github.com/sameeranand2711/DbRouter/pull/1) targeting `main`; it remains open and unmerged for human review.
+Agent 05 passes. Agent 00 created [PR #2](https://github.com/sameeranand2711/DbRouter/pull/2) targeting `main`; it remains open and unmerged for human review. PR #1 was superseded when GitHub closed it during the release-branch rename.
