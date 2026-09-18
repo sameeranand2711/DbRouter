@@ -10,7 +10,7 @@ Workflow state: `CREATE_SAMPLE_APP = true`
 | Agent 03 | DbConnection factory, provider registry, SQL Server and PostgreSQL packages, DI, tests | Complete |
 | Agent 04 | Optional EF Core package, explicit/scoped context creation, lifecycle tests | Complete |
 | Agent 05 | Consumer validation, documentation set, release checklist, release report | Complete |
-| Final delivery | Open PR/MR targeting `main` | Complete: [PR #2](https://github.com/sameeranand2711/DbRouter/pull/2) open for human review |
+| Final delivery | Open PR/MR targeting `main` | Complete: initial [PR #2](https://github.com/sameeranand2711/DbRouter/pull/2) merged after human review; follow-up [PR #3](https://github.com/sameeranand2711/DbRouter/pull/3) open for human review |
 
 ## Completed artifacts
 

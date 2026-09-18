@@ -40,6 +40,7 @@
 - [x] Local package vulnerability audit completed without a reported vulnerable package.
 - [x] Required documentation is complete.
 - [x] Sample application created after `CREATE_SAMPLE_APP` was explicitly set to `true`.
-- [x] Final PR/MR opened against `main`: [PR #2](https://github.com/sameeranand2711/DbRouter/pull/2).
+- [x] Initial release PR opened against `main` and merged after human review: [PR #2](https://github.com/sameeranand2711/DbRouter/pull/2).
+- [x] Follow-up sample-fix PR opened against `main`: [PR #3](https://github.com/sameeranand2711/DbRouter/pull/3).
 
-The sample gate and Agent 05 technical release-readiness gate are complete. PR #2 remains open and unmerged for human review.
+The sample gate and Agent 05 technical release-readiness gate are complete. PR #2 was merged by a human after review; follow-up PR #3 remains open and unmerged for human review.

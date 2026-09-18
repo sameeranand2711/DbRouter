@@ -82,16 +82,16 @@ Workflow state: `CREATE_SAMPLE_APP = true`
 ## Final orchestration verification
 
 - The completed stage branches and commits form a sequential history rooted at the empty `main` baseline.
-- All implementation and release work occurred on dedicated non-main branches; nothing was merged into `main`.
+- All implementation and release work occurred on dedicated non-main branches. PR #2 was merged into `main` by a human after review; no branch was automatically merged by the agent.
 - The final release branch contains the complete V1 package, test, documentation, and manifest set.
 - The final build/test/package gates pass and Agent 05 is `PASS`.
 - RC review findings covering untrusted connection-state inspection and definition enumeration were remediated with regression tests on both target frameworks.
 - The sample was validated end-to-end against four SQL Server databases and three PostgreSQL databases while keeping credentials in the external user-secrets store.
-- GitHub pull request [#2](https://github.com/sameeranand2711/DbRouter/pull/2) targets `main` from `release/v1.0.0-rc.1` and remains open for human review.
+- GitHub pull request [#2](https://github.com/sameeranand2711/DbRouter/pull/2) targeted `main` from `release/v1.0.0-rc.1` and was merged by a human after review. Follow-up pull request [#3](https://github.com/sameeranand2711/DbRouter/pull/3) targets `main` from `fix/sample-live-database-demo` and remains open for human review.
 
 ## Governance notes
 
 - Agents execute strictly in numeric order. A later agent starts only after the preceding agent reports PASS and Agent 00 verifies its outputs.
 - Each stage uses a dedicated branch based on the completed preceding stage. The final release branch therefore contains the complete, reviewable V1 change set.
 - No branch will be merged automatically.
-- `origin` is configured as `https://github.com/sameeranand2711/DbRouter.git`; pull request #2 is the final review gate.
+- `origin` is configured as `https://github.com/sameeranand2711/DbRouter.git`; open pull request #3 is the current review gate for the live sample follow-up.
