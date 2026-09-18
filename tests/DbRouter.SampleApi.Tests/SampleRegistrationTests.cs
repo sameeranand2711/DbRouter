@@ -10,9 +10,11 @@ using DbRouter.SampleApi.Configuration;
 using DbRouter.SampleApi.Data.Contexts;
 using DbRouter.SampleApi.Data.Entities;
 using DbRouter.SampleApi.Data.Repositories;
+using DbRouter.SampleApi.Extensions;
 using DbRouter.SampleApi.Services;
 using DbRouter.SqlServer.Providers;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 
@@ -172,5 +174,22 @@ public sealed class SampleRegistrationTests
         await using OrdersDbContext context = resolver.Create(DatabaseKey.Orders);
 
         Assert.Equal("Microsoft.EntityFrameworkCore.SqlServer", context.Database.ProviderName);
+    }
+
+    [Fact]
+    public async Task Customer_seed_repairs_an_existing_customer_without_a_preference()
+    {
+        var options = new DbContextOptionsBuilder<CustomerDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+        await using var context = new CustomerDbContext(options);
+        context.Customers.Add(new Customer { Name = "DbRouter sample customer" });
+        await context.SaveChangesAsync();
+
+        await ApplicationInitializationExtensions.SeedCustomersAsync(context, default);
+        await ApplicationInitializationExtensions.SeedCustomersAsync(context, default);
+
+        Assert.Single(context.Customers);
+        Assert.Single(context.CustomerPreferences);
     }
 }

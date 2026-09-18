@@ -9,6 +9,8 @@ namespace DbRouter.SampleApi.Extensions;
 
 public static class ApplicationInitializationExtensions
 {
+    private const string SeedCustomerName = "DbRouter sample customer";
+
     public static async Task InitializeSampleDataAsync(
         this IServiceProvider services,
         CancellationToken cancellationToken = default)
@@ -31,11 +33,28 @@ public static class ApplicationInitializationExtensions
 
         await context.Database.EnsureCreatedAsync(cancellationToken);
 
-        if (!await context.Customers.AnyAsync(cancellationToken))
+        await SeedCustomersAsync(context, cancellationToken);
+    }
+
+    internal static async Task SeedCustomersAsync(
+        CustomerDbContext context,
+        CancellationToken cancellationToken)
+    {
+        Customer? customer = await context.Customers.FirstOrDefaultAsync(
+            candidate => candidate.Name == SeedCustomerName,
+            cancellationToken);
+        if (customer is null)
         {
-            var customer = new Customer { Name = "DbRouter sample customer" };
+            customer = new Customer { Name = SeedCustomerName };
             context.Customers.Add(customer);
             await context.SaveChangesAsync(cancellationToken);
+        }
+
+        bool hasPreference = await context.CustomerPreferences.AnyAsync(
+            preference => preference.CustomerId == customer.Id,
+            cancellationToken);
+        if (!hasPreference)
+        {
             context.CustomerPreferences.Add(new CustomerPreference
             {
                 CustomerId = customer.Id,

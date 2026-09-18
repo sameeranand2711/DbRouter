@@ -52,11 +52,13 @@ IF DB_ID(N'company_orders') IS NULL CREATE DATABASE [company_orders];
 IF DB_ID(N'company_reporting') IS NULL CREATE DATABASE [company_reporting];
 ~~~
 
-The supplied PostgreSQL server already contains `operationguard`. Create the two additional databases with the same owner:
+On a fresh PostgreSQL server, connect with an administrative role (replace `postgres` if your administrator has a different name), create the application role, and then create all three databases. Replace the password placeholder with the same value stored in user-secrets. Skip any command for a role or database that already exists:
 
 ~~~shell
-createdb -U operationguard -O operationguard operationguard_inventory
-createdb -U operationguard -O operationguard operationguard_audit
+psql -h localhost -p 55432 -U postgres -d postgres -c "CREATE ROLE operationguard LOGIN PASSWORD '<postgresql-password>'"
+createdb -h localhost -p 55432 -U postgres -O operationguard operationguard
+createdb -h localhost -p 55432 -U postgres -O operationguard operationguard_inventory
+createdb -h localhost -p 55432 -U postgres -O operationguard operationguard_audit
 ~~~
 
 These commands are intentionally separate from application startup. DbRouter resolves configured databases; it does not provision servers or implement migrations.

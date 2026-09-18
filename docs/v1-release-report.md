@@ -73,19 +73,19 @@ The automated suite validates:
 
 ## Build and test results
 
-Final Release validation on 2026-09-12:
+Final Release validation on 2026-09-18:
 
 | Gate | Result |
 | --- | --- |
 | Clean solution restore | PASS |
 | Release build | PASS, 0 warnings, 0 errors |
-| `net8.0` tests | PASS, 82 passed, 0 failed, 0 skipped |
+| `net8.0` tests | PASS, 83 passed, 0 failed, 0 skipped |
 | `net10.0` tests | PASS, 73 passed, 0 failed, 0 skipped |
-| Combined tests | PASS, 155 passed |
+| Combined tests | PASS, 156 passed |
 | NuGet package construction | PASS, five packages |
 | Direct/transitive vulnerability query | PASS, none reported |
 
-The library suite contributes 73 tests per target framework: 31 Core, 20 DI/connection-factory, 7 provider, and 15 EF Core tests. The .NET 8 sample project contributes 9 additional tests.
+The library suite contributes 73 tests per target framework: 31 Core, 20 DI/connection-factory, 7 provider, and 15 EF Core tests. The .NET 8 sample project contributes 10 additional tests.
 
 ## Performance observations
 
@@ -121,7 +121,7 @@ V1 intentionally excludes dynamic refresh, tenant discovery, asynchronous/remote
 
 `CREATE_SAMPLE_APP = true`. A later explicit user instruction authorized `samples/DbRouter.SampleApi`, which demonstrates seven logical databases, heterogeneous ADO.NET providers, scoped selection, and explicit/scoped EF Core usage. Its focused tests require no database server.
 
-The sample branch adds 9 passing .NET 8 integration tests. Whole-solution validation after the live sample update reports 155 passing target-specific test executions, zero failures, zero skips, and a Release build with zero warnings/errors. Live validation confirmed all seven configured databases, both concrete providers, mixed-provider access, scoped selection, explicit EF resolution, and scoped EF repository resolution. A direct/transitive advisory query reports no vulnerable package for the sample project.
+The sample branch adds 10 passing .NET 8 integration tests. Whole-solution validation after the live sample update reports 156 passing target-specific test executions, zero failures, zero skips, and a Release build with zero warnings/errors. Live validation confirmed all seven configured databases, both concrete providers, mixed-provider access, scoped selection, explicit EF resolution, and scoped EF repository resolution. A direct/transitive advisory query reports no vulnerable package for the sample project.
 
 ## Final delivery status
 

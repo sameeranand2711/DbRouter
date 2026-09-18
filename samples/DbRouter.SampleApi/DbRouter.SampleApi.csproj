@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="DbRouter.SampleApi.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\DbRouter.DependencyInjection\DbRouter.DependencyInjection.csproj" />
     <ProjectReference Include="..\..\src\DbRouter.EntityFrameworkCore\DbRouter.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\DbRouter.PostgreSql\DbRouter.PostgreSql.csproj" />
