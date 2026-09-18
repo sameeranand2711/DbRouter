@@ -25,29 +25,20 @@ public static class ServiceCollectionExtensions
             ?? throw new InvalidOperationException(
                 $"Connection string '{name}' is required by the sample.");
 
+        services.AddSingleton(new SampleDatabaseOptions(
+            ConnectionString("PrimaryDatabase"),
+            ConnectionString("CustomerDatabase"),
+            ConnectionString("OrdersDatabase"),
+            ConnectionString("PaymentsDatabase"),
+            ConnectionString("InventoryDatabase"),
+            ConnectionString("ReportingDatabase"),
+            ConnectionString("AuditDatabase")));
+
         services.AddDbRouter<DatabaseKey>(builder =>
         {
-            builder.AddSqlServer(
-                DatabaseKey.Primary,
-                ConnectionString("PrimaryDatabase"));
-            builder.AddSqlServer(
-                DatabaseKey.Customer,
-                ConnectionString("CustomerDatabase"));
-            builder.AddSqlServer(
-                DatabaseKey.Orders,
-                ConnectionString("OrdersDatabase"));
-            builder.AddPostgreSql(
-                DatabaseKey.Payments,
-                ConnectionString("PaymentsDatabase"));
-            builder.AddPostgreSql(
-                DatabaseKey.Inventory,
-                ConnectionString("InventoryDatabase"));
-            builder.AddSqlServer(
-                DatabaseKey.Reporting,
-                ConnectionString("ReportingDatabase"));
-            builder.AddPostgreSql(
-                DatabaseKey.Audit,
-                ConnectionString("AuditDatabase"));
+            builder.UseDefinitionProvider<SampleDatabaseDefinitionProvider>();
+            builder.AddSqlServer();
+            builder.AddPostgreSql();
         });
 
         services.AddDbRouterEntityFrameworkCore<DatabaseKey, CustomerDbContext>(
@@ -67,6 +58,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<OrderLookupRepository>();
         services.AddScoped<ExplicitConnectionExampleService>();
         services.AddScoped<ScopedConnectionExampleService>();
+        services.AddScoped<DatabaseConnectivityService>();
 
         return services;
     }
