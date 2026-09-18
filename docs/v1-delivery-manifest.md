@@ -90,7 +90,9 @@ Complete on the dedicated release-candidate branch after an explicit user decisi
 - Explicit and scoped `DbConnection` examples with caller-owned disposal.
 - Explicit caller-owned and scoped DI-owned EF Core context examples using ordinary contexts.
 - Customer selection middleware that runs before scoped repository/context resolution.
-- Focused `tests/DbRouter.SampleApi.Tests` coverage that requires no active database.
+- A custom static definition provider, fail-fast definition validation, and concurrent status probes for all seven databases.
+- Optional startup schema/seed initialization for the two EF Core contexts.
+- Focused `tests/DbRouter.SampleApi.Tests` coverage that requires no active database, plus live endpoint validation against both providers.
 
 ## RC review remediation
 

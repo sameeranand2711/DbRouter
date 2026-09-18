@@ -1,7 +1,9 @@
 using System.Data;
 using DbRouter.Core.Abstractions.Connections;
+using DbRouter.Core.Abstractions.Providers;
 using DbRouter.Core.Abstractions.Resolvers;
 using DbRouter.Core.Abstractions.Scoping;
+using DbRouter.Core.Models;
 using DbRouter.EntityFrameworkCore.Abstractions.Resolvers;
 using DbRouter.PostgreSql.Providers;
 using DbRouter.SampleApi.Configuration;
@@ -36,6 +38,36 @@ public sealed class SampleRegistrationTests
 
         Assert.Equal(7, Enum.GetValues<DatabaseKey>().Length);
         Assert.All(expected, item => Assert.Equal(item.Value, router.Resolve(item.Key).ProviderId));
+    }
+
+    [Fact]
+    public void Custom_definition_provider_returns_one_stable_static_snapshot()
+    {
+        using ServiceProvider provider = SampleTestServices.Build();
+        IDatabaseDefinitionProvider<DatabaseKey> definitions = provider
+            .GetRequiredService<IDatabaseDefinitionProvider<DatabaseKey>>();
+
+        var sampleProvider = Assert.IsType<SampleDatabaseDefinitionProvider>(definitions);
+        IReadOnlyCollection<DatabaseDefinition<DatabaseKey>> first =
+            sampleProvider.GetDefinitions();
+        IReadOnlyCollection<DatabaseDefinition<DatabaseKey>> second =
+            sampleProvider.GetDefinitions();
+
+        Assert.Same(first, second);
+        Assert.Equal(7, first.Count);
+    }
+
+    [Fact]
+    public void Sample_database_options_do_not_render_connection_strings()
+    {
+        using ServiceProvider provider = SampleTestServices.Build();
+        SampleDatabaseOptions options = provider.GetRequiredService<SampleDatabaseOptions>();
+
+        string text = options.ToString();
+
+        Assert.Contains("REDACTED", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("Server=", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("Host=", text, StringComparison.Ordinal);
     }
 
     [Fact]
