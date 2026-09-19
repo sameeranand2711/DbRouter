@@ -10,7 +10,7 @@ Workflow state: `CREATE_SAMPLE_APP = true`
 | Agent 03 | DbConnection factory, provider registry, SQL Server and PostgreSQL packages, DI, tests | Complete |
 | Agent 04 | Optional EF Core package, explicit/scoped context creation, lifecycle tests | Complete |
 | Agent 05 | Consumer validation, documentation set, release checklist, release report | Complete |
-| Final delivery | Open PR/MR targeting `main` | Complete: [PR #2](https://github.com/sameeranand2711/DbRouter/pull/2) open for human review |
+| Final delivery | Open PR/MR targeting `main` | Complete: initial [PR #2](https://github.com/sameeranand2711/DbRouter/pull/2) merged after human review; follow-up [PR #3](https://github.com/sameeranand2711/DbRouter/pull/3) open for human review |
 
 ## Completed artifacts
 
@@ -90,7 +90,9 @@ Complete on the dedicated release-candidate branch after an explicit user decisi
 - Explicit and scoped `DbConnection` examples with caller-owned disposal.
 - Explicit caller-owned and scoped DI-owned EF Core context examples using ordinary contexts.
 - Customer selection middleware that runs before scoped repository/context resolution.
-- Focused `tests/DbRouter.SampleApi.Tests` coverage that requires no active database.
+- A custom static definition provider, fail-fast definition validation, and concurrent status probes for all seven databases.
+- Optional startup schema/seed initialization for the two EF Core contexts.
+- Focused `tests/DbRouter.SampleApi.Tests` coverage that requires no active database, plus live endpoint validation against both providers.
 
 ## RC review remediation
 

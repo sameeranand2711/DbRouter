@@ -1,16 +1,20 @@
 using System.Data;
 using DbRouter.Core.Abstractions.Connections;
+using DbRouter.Core.Abstractions.Providers;
 using DbRouter.Core.Abstractions.Resolvers;
 using DbRouter.Core.Abstractions.Scoping;
+using DbRouter.Core.Models;
 using DbRouter.EntityFrameworkCore.Abstractions.Resolvers;
 using DbRouter.PostgreSql.Providers;
 using DbRouter.SampleApi.Configuration;
 using DbRouter.SampleApi.Data.Contexts;
 using DbRouter.SampleApi.Data.Entities;
 using DbRouter.SampleApi.Data.Repositories;
+using DbRouter.SampleApi.Extensions;
 using DbRouter.SampleApi.Services;
 using DbRouter.SqlServer.Providers;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 
@@ -36,6 +40,36 @@ public sealed class SampleRegistrationTests
 
         Assert.Equal(7, Enum.GetValues<DatabaseKey>().Length);
         Assert.All(expected, item => Assert.Equal(item.Value, router.Resolve(item.Key).ProviderId));
+    }
+
+    [Fact]
+    public void Custom_definition_provider_returns_one_stable_static_snapshot()
+    {
+        using ServiceProvider provider = SampleTestServices.Build();
+        IDatabaseDefinitionProvider<DatabaseKey> definitions = provider
+            .GetRequiredService<IDatabaseDefinitionProvider<DatabaseKey>>();
+
+        var sampleProvider = Assert.IsType<SampleDatabaseDefinitionProvider>(definitions);
+        IReadOnlyCollection<DatabaseDefinition<DatabaseKey>> first =
+            sampleProvider.GetDefinitions();
+        IReadOnlyCollection<DatabaseDefinition<DatabaseKey>> second =
+            sampleProvider.GetDefinitions();
+
+        Assert.Same(first, second);
+        Assert.Equal(7, first.Count);
+    }
+
+    [Fact]
+    public void Sample_database_options_do_not_render_connection_strings()
+    {
+        using ServiceProvider provider = SampleTestServices.Build();
+        SampleDatabaseOptions options = provider.GetRequiredService<SampleDatabaseOptions>();
+
+        string text = options.ToString();
+
+        Assert.Contains("REDACTED", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("Server=", text, StringComparison.Ordinal);
+        Assert.DoesNotContain("Host=", text, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -140,5 +174,22 @@ public sealed class SampleRegistrationTests
         await using OrdersDbContext context = resolver.Create(DatabaseKey.Orders);
 
         Assert.Equal("Microsoft.EntityFrameworkCore.SqlServer", context.Database.ProviderName);
+    }
+
+    [Fact]
+    public async Task Customer_seed_repairs_an_existing_customer_without_a_preference()
+    {
+        var options = new DbContextOptionsBuilder<CustomerDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+        await using var context = new CustomerDbContext(options);
+        context.Customers.Add(new Customer { Name = "DbRouter sample customer" });
+        await context.SaveChangesAsync();
+
+        await ApplicationInitializationExtensions.SeedCustomersAsync(context, default);
+        await ApplicationInitializationExtensions.SeedCustomersAsync(context, default);
+
+        Assert.Single(context.Customers);
+        Assert.Single(context.CustomerPreferences);
     }
 }

@@ -4,10 +4,15 @@
     <AssemblyName>DbRouter.SampleApi</AssemblyName>
     <RootNamespace>DbRouter.SampleApi</RootNamespace>
     <IsPackable>false</IsPackable>
+    <UserSecretsId>DbRouter-SampleApi-1c568517-6f20-42fa-a417-e94e75dcc49f</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="DbRouter.SampleApi.Tests" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,7 +4,7 @@
 
 `STATUS: PASS` for Agent 05 technical release readiness.
 
-DbRouter V1 release candidate `1.0.0-rc.1` is ready for human review. The prerelease designation is intentional: the API and automated validation are complete, while human review and broader consumer validation remain release gates. GitHub pull request [#2](https://github.com/sameeranand2711/DbRouter/pull/2) targets `main` and remains open and unmerged for human review.
+DbRouter V1 release candidate `1.0.0-rc.1` passed its initial human review and was merged to `main` through GitHub pull request [#2](https://github.com/sameeranand2711/DbRouter/pull/2). The prerelease designation remains intentional while broader consumer validation continues. The subsequent live sample improvements are isolated in follow-up pull request [#3](https://github.com/sameeranand2711/DbRouter/pull/3), which targets `main` and remains open for human review.
 
 ## Implemented functionality
 
@@ -73,19 +73,19 @@ The automated suite validates:
 
 ## Build and test results
 
-Final Release validation on 2026-09-12:
+Final Release validation on 2026-09-18:
 
 | Gate | Result |
 | --- | --- |
 | Clean solution restore | PASS |
 | Release build | PASS, 0 warnings, 0 errors |
-| `net8.0` tests | PASS, 80 passed, 0 failed, 0 skipped |
+| `net8.0` tests | PASS, 83 passed, 0 failed, 0 skipped |
 | `net10.0` tests | PASS, 73 passed, 0 failed, 0 skipped |
-| Combined tests | PASS, 153 passed |
+| Combined tests | PASS, 156 passed |
 | NuGet package construction | PASS, five packages |
 | Direct/transitive vulnerability query | PASS, none reported |
 
-The library suite contributes 73 tests per target framework: 31 Core, 20 DI/connection-factory, 7 provider, and 15 EF Core tests. The .NET 8 sample project contributes 7 additional tests.
+The library suite contributes 73 tests per target framework: 31 Core, 20 DI/connection-factory, 7 provider, and 15 EF Core tests. The .NET 8 sample project contributes 10 additional tests.
 
 ## Performance observations
 
@@ -121,8 +121,8 @@ V1 intentionally excludes dynamic refresh, tenant discovery, asynchronous/remote
 
 `CREATE_SAMPLE_APP = true`. A later explicit user instruction authorized `samples/DbRouter.SampleApi`, which demonstrates seven logical databases, heterogeneous ADO.NET providers, scoped selection, and explicit/scoped EF Core usage. Its focused tests require no database server.
 
-The sample branch adds 7 passing .NET 8 integration tests. Whole-solution validation after RC review remediation reports 153 passing target-specific test executions, zero failures, zero skips, and a Release build with zero warnings/errors. A direct/transitive advisory query reports no vulnerable package for the sample project.
+The sample branch adds 10 passing .NET 8 integration tests. Whole-solution validation after the live sample update reports 156 passing target-specific test executions, zero failures, zero skips, and a Release build with zero warnings/errors. Live validation confirmed all seven configured databases, both concrete providers, mixed-provider access, scoped selection, explicit EF resolution, and scoped EF repository resolution. A direct/transitive advisory query reports no vulnerable package for the sample project.
 
 ## Final delivery status
 
-Agent 05 passes. Agent 00 created [PR #2](https://github.com/sameeranand2711/DbRouter/pull/2) targeting `main`; it remains open and unmerged for human review. PR #1 was superseded when GitHub closed it during the release-branch rename.
+Agent 05 passes. Agent 00 created [PR #2](https://github.com/sameeranand2711/DbRouter/pull/2) targeting `main`; a human merged it after review. The subsequent sample fix is delivered through open follow-up [PR #3](https://github.com/sameeranand2711/DbRouter/pull/3), also targeting `main`, and remains unmerged for human review. PR #1 was superseded when GitHub closed it during the release-branch rename.

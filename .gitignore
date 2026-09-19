@@ -9,5 +9,7 @@ BenchmarkDotNet.Artifacts/
 **/TestResults/
 .codex
 .github
+.vs
+*.csproj.user
 
 Agents
